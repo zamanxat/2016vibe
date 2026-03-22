@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="kk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#ff0080" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Фото жарыс" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icon.svg" />
+    <title>Маскалармен селфи жарысы — Enactus IITU</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <p id="fatal-no-sdk" class="fatal-banner" hidden role="alert">
+      Байланыс қатесі: Supabase кітапханасы жүктелмеді. Интернетті тексеріп, бетті жаңартыңыз (немесе сайтты жергілікті сервер арқылы ашыңыз).
+    </p>
+    <div class="bg-blobs" aria-hidden="true">
+      <span class="blob blob--a"></span>
+      <span class="blob blob--b"></span>
+      <span class="blob blob--c"></span>
+      <span class="snap-deco snap-deco--1">🎭</span>
+      <span class="snap-deco snap-deco--2">👻</span>
+      <span class="snap-deco snap-deco--3">✨</span>
+      <span class="snap-deco snap-deco--4">🌈</span>
+    </div>
+
+    <div class="page">
+      <div class="header-line" aria-hidden="true"></div>
+      <header class="site-header">
+        <div class="site-header__inner">
+          <a href="#" class="brand" aria-label="IITU">
+            <img
+              class="brand__logo"
+              src="Logo%20IITU%20black.png"
+              width="200"
+              height="56"
+              alt="IITU"
+            />
+          </a>
+          <span id="phase-badge" class="status-pill" aria-live="polite">…</span>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero__inner">
+          <h1 class="hero__title">
+            Маскалармен <span class="hero__accent">селфи</span> жарысы
+          </h1>
+          <p class="hero__tagline">2016 vibes · түрлі-түсті маскалар · суретке түсіңіз</p>
+
+          <div class="install-strip" id="install-strip">
+            <details class="install-strip__details">
+              <summary class="install-strip__summary">
+                <span class="install-strip__summary-icon" aria-hidden="true">📲</span>
+                Негізгі экранға қосу
+              </summary>
+              <div class="install-strip__panel">
+                <p class="install-strip__text" id="install-hint-text">
+                  Android: ⋮ мәзір → «Бетті орнату». iPhone: Safari → бөлісу → «Негізгі экранға қосу».
+                </p>
+                <button type="button" id="btn-install-pwa" class="btn btn--secondary btn--sm install-strip__btn" hidden>
+                  Орнату
+                </button>
+              </div>
+            </details>
+          </div>
+
+          <div class="hero__meta">
+            <div class="hero__meta-card">
+              <span class="hero__meta-label">Кезең</span>
+              <span id="stat-phase" class="hero__meta-value">—</span>
+            </div>
+
+            <div id="hero-countdown-block" class="hero__countdown" hidden>
+              <span class="hero__meta-label hero__countdown__title" id="countdown-title">Мерекеге дейін</span>
+              <div class="countdown-flip" aria-live="polite">
+                <div class="countdown-flip__unit">
+                  <div class="flip-card" aria-hidden="true"><span id="cd-d">00</span></div>
+                  <span class="countdown-flip__lbl">Күн</span>
+                </div>
+                <div class="countdown-flip__unit">
+                  <div class="flip-card" aria-hidden="true"><span id="cd-h">00</span></div>
+                  <span class="countdown-flip__lbl">Сағат</span>
+                </div>
+                <div class="countdown-flip__unit">
+                  <div class="flip-card" aria-hidden="true"><span id="cd-m">00</span></div>
+                  <span class="countdown-flip__lbl">Мин</span>
+                </div>
+                <div class="countdown-flip__unit">
+                  <div class="flip-card" aria-hidden="true"><span id="cd-s">00</span></div>
+                  <span class="countdown-flip__lbl">Сек</span>
+                </div>
+              </div>
+              <p class="hero__deadline-hint" id="stat-deadline-hint"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <main class="main">
+        <section id="section-my-card" class="section section--my-card" hidden>
+          <div class="my-card-panel glass-card">
+            <h2 class="section__title section__title--my-card">Менің карточкам</h2>
+            <p class="my-card-hint">Дауыс беру кезеңіндегі карточкаңыз осындай көрінеді.</p>
+            <div id="my-card-slot" class="my-card-slot"></div>
+            <div class="my-card-actions">
+              <button type="button" id="btn-my-card-preview" class="btn btn--secondary btn--sm">Алдын ала қарау</button>
+              <button type="button" id="btn-my-card-edit" class="btn btn--secondary btn--sm">Өңдеу</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-voting" class="section section--gallery" hidden>
+          <h2 class="section__title">Дауыс беру</h2>
+          <ul id="gallery" class="gallery"></ul>
+          <p id="gallery-empty" class="empty-state" hidden>Галерея бос.</p>
+        </section>
+
+        <section id="section-submit" class="section section--submit" hidden>
+          <h2 class="section__title">Өтініш жіберу</h2>
+
+          <form id="form-upload" class="glass-card form-card">
+            <div class="form-card__fields">
+              <p id="form-revoked-banner" class="form-revoked-banner" hidden role="status"></p>
+              <label class="field">
+                <span class="field__label">Аты-жөніңіз <span class="req">*</span></span>
+                <input
+                  id="name-input"
+                  type="text"
+                  class="field__input"
+                  maxlength="120"
+                  autocomplete="name"
+                  placeholder="Толық аты-жөніңізді жазыңыз"
+                />
+                <span id="name-err" class="field__error" hidden></span>
+              </label>
+              <label class="field">
+                <span class="field__label">Сурет <span class="req">*</span></span>
+                <span class="file-drop">
+                  <input id="file-input" type="file" accept="image/*" class="file-drop__input" />
+                  <span class="file-drop__ui">
+                    <span class="file-drop__icon" aria-hidden="true">
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M4 7h3l1.5-2h7L17 7h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V9a2 2 0 012-2z"
+                          stroke="currentColor"
+                          stroke-width="1.75"
+                          stroke-linejoin="round"
+                        />
+                        <circle cx="12" cy="13" r="3.25" stroke="currentColor" stroke-width="1.75" />
+                      </svg>
+                    </span>
+                    <span id="file-label" class="file-drop__text">Таңдау немесе сүйреп әкелу</span>
+                  </span>
+                </span>
+                <span id="file-err" class="field__error" hidden></span>
+              </label>
+              <div id="crop-panel" class="crop-panel" hidden>
+                <p class="crop-panel__hint">
+                  Барлық карточкалар үшін бірыңғай 4:5 (1080×1350 px). Суретті сүйреп, қиылатын аймақты орналастырыңыз.
+                </p>
+                <div class="crop-viewport-wrap">
+                  <div id="crop-viewport" class="crop-viewport">
+                    <canvas id="crop-canvas" class="crop-canvas" width="320" height="400" aria-label="Кесу алқабы"></canvas>
+                  </div>
+                  <p class="crop-panel__sub">Қара жиек кесіліп тасталады — түсті қорап галереядағы сияқты.</p>
+                </div>
+                <button type="button" id="btn-crop-apply" class="btn btn--primary btn--wide">Кесіп қолдану</button>
+              </div>
+              <div id="file-preview-wrap" class="file-preview-wrap" hidden>
+                <img id="file-preview-img" class="file-preview-img" alt="Таңдалған сурет" />
+              </div>
+              <label class="field">
+                <span class="field__label">Сипаттама</span>
+                <input
+                  id="caption-input"
+                  type="text"
+                  maxlength="160"
+                  class="field__input"
+                  placeholder="Міндетті емес"
+                />
+              </label>
+            </div>
+            <button id="btn-upload" type="submit" class="btn btn--primary btn--wide">
+              <span class="btn__label">Жіберу</span>
+              <span class="btn__spinner" aria-hidden="true"></span>
+            </button>
+            <p id="upload-msg" class="form-msg" role="status"></p>
+          </form>
+
+          <div id="submit-success" class="success-panel glass-card" hidden>
+            <p class="success-panel__title">Өтініш сақталды</p>
+            <p id="submit-success-detail" class="success-panel__detail" hidden></p>
+            <div class="success-panel__actions">
+              <button type="button" id="btn-replace-photo" class="btn btn--secondary">Суретті қайта жүктеу</button>
+            </div>
+          </div>
+          <div id="replace-cancel-wrap" class="replace-cancel-wrap" hidden>
+            <button type="button" id="btn-cancel-replace" class="btn btn--ghost btn--wide">Бас тарту</button>
+          </div>
+
+          <p id="submit-closed" class="empty-state empty-state--soft" hidden>Сурет жіберу уақыты өтті.</p>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <p class="site-footer__main">Жарысты <strong>Enactus IITU</strong> ұйымдастырады.</p>
+        <p class="site-footer__sub">Сайтты <strong>Enactus IITU</strong> дайындады.</p>
+      </footer>
+    </div>
+
+    <button type="button" id="admin-trigger" class="admin-hit" tabindex="-1" aria-hidden="true"></button>
+
+    <div id="admin-overlay" class="overlay" hidden>
+      <div class="overlay__backdrop"></div>
+      <div class="overlay__panel glass-card glass-card--admin" role="dialog" aria-modal="true" aria-labelledby="admin-title">
+        <div class="overlay__head">
+          <h2 id="admin-title" class="overlay__title">Админ</h2>
+          <button type="button" id="admin-close" class="icon-btn" aria-label="Жабу">✕</button>
+        </div>
+        <div class="admin-grid">
+          <div class="admin-col">
+            <label class="field">
+              <span class="field__label">PIN</span>
+              <input type="password" id="admin-pin" class="field__input" autocomplete="off" />
+            </label>
+            <button type="button" id="admin-load" class="btn btn--secondary btn--wide">Кіру</button>
+            <fieldset class="admin-phase-fieldset">
+              <legend class="admin-phase-legend">Кезең</legend>
+              <div class="admin-phase-radios" role="radiogroup" aria-label="Кезең">
+                <label class="admin-radio">
+                  <input type="radio" name="admin-phase" id="admin-phase-sub" value="submission" />
+                  <span>Сурет жинау</span>
+                </label>
+                <label class="admin-radio">
+                  <input type="radio" name="admin-phase" id="admin-phase-vote" value="voting" />
+                  <span>Дауыс</span>
+                </label>
+              </div>
+            </fieldset>
+            <label class="field">
+              <span class="field__label">Аяқталу уақыты</span>
+              <input type="datetime-local" id="admin-deadline" class="field__input" autocomplete="off" />
+            </label>
+            <button type="button" id="admin-save-deadline" class="btn btn--secondary btn--wide">Мерзімді сақтау</button>
+            <button type="button" id="admin-reset" class="btn btn--danger btn--wide admin-reset-btn">Толық тазалау</button>
+          </div>
+          <div class="admin-col admin-col--wide">
+            <h3 class="admin-list-title">Өтініштер</h3>
+            <div id="admin-photos" class="admin-list"></div>
+            <p id="admin-msg" class="form-msg"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="photo-sheet" class="photo-sheet" hidden>
+      <div class="photo-sheet__backdrop"></div>
+      <div class="photo-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="photo-sheet-name">
+        <button type="button" id="photo-sheet-close" class="photo-sheet__close" aria-label="Жабу">×</button>
+        <div class="photo-sheet__inner">
+          <div id="photo-sheet-img-wrap" class="photo-sheet__img-wrap">
+            <button type="button" id="photo-sheet-fullscreen" class="photo-sheet__fs-btn" aria-label="Толық экран">
+              ⛶
+            </button>
+            <img id="photo-sheet-img" class="photo-sheet__img" alt="" draggable="false" />
+          </div>
+          <div class="photo-sheet__body">
+            <h2 id="photo-sheet-name" class="photo-sheet__name"></h2>
+            <p id="photo-sheet-caption" class="photo-sheet__desc"></p>
+            <p id="photo-sheet-votes" class="photo-sheet__votes"></p>
+            <button type="button" id="photo-sheet-vote" class="btn btn--accent btn--wide"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="app-dialog" class="app-dialog" hidden>
+      <div class="app-dialog__backdrop"></div>
+      <div class="app-dialog__box glass-card" role="alertdialog" aria-modal="true" aria-labelledby="app-dialog-title">
+        <h3 id="app-dialog-title" class="app-dialog__title"></h3>
+        <p id="app-dialog-msg" class="app-dialog__msg"></p>
+        <div class="app-dialog__actions">
+          <button type="button" id="app-dialog-cancel" class="btn btn--ghost app-dialog__btn">Бас тарту</button>
+          <button type="button" id="app-dialog-ok" class="btn btn--primary app-dialog__btn">Жақсы</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
